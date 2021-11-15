@@ -8,7 +8,7 @@ public class Grammar {
     private List<String> N; //non-terminals
     private List<String> T; // terminals
     private String S; //starting symbol
-    private Map<String, List<String>> P; // productions
+    private Map<List<String>, List<List<String>>> P; // productions
 
     public Grammar() {
 //        this.N = new ArrayList<>();
