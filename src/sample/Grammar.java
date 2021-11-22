@@ -11,11 +11,12 @@ public class Grammar {
     private Map<List<String>, List<List<String>>> P; // productions
 
     public Grammar() {
-//        this.N = new ArrayList<>();
-//        this.T = new ArrayList<>();
         this.P = new HashMap<>();
-        }
+    }
 
+    public Map<List<String>, List<List<String>>> getP() {
+        return P;
+    }
 
     public List<String> readLineToList(String line){
         String array[] = line.split(" ");
@@ -37,45 +38,90 @@ public class Grammar {
 
         while (scanner.hasNextLine()) {
             List<String> line = readLineToList(scanner.nextLine());
-            String left = line.get(0);
-            String right = line.get(2);
-            line = Arrays.asList(right.split("|").clone());
-            if (P.containsKey(left)) {
-                for (int i = 0; i < line.size(); i++) {
-                    if (!P.get(left).contains(line.get(i)))
-                        P.get(left).add(line.get(i));
+            int i = 0;
+            ArrayList<String> key = new ArrayList<>();
+            while(!line.get(i).contains("->")) {
+                List<String> token = Arrays.asList(line.get(i).split("\\|").clone());
+                for(String j : token) {
+                    if(!key.contains(j) && !j.equals("|")) {
+                        key.add(j);
+                    }
                 }
-            } else {
-                P.put(left, new ArrayList<>());
-                for (int i = 0; i < line.size(); i++) {
-                    P.get(left).add(line.get(i));
-                }
+                i++;
             }
+            //System.out.println(key);
+            i++;
+            ArrayList<List<String>> value = new ArrayList<>();
+            while(i<line.size()) {
+                List<String> token = Arrays.asList(line.get(i).split("\\|").clone());
+                for(String str : token) {
+                    List<String> prod = Arrays.asList(str.split(" ").clone());
+                    value.add(prod);
+                }
+                i++;
+            }
+//            System.out.println(key);
+//            System.out.println(value);
+            P.put(key, value);
         }
 
     }
 
-    private String PtoString() {
-        String toDisplay = "Productions: \n";
+    public boolean checkCfg() {
+        if (!N.contains(S)) {
+            System.out.println("S is not in N");
+            return false;
+        }
         for(Map.Entry el : P.entrySet()) {
-            toDisplay += el.getKey();
-            toDisplay += " -> ";
-            List<String> prod = (List<String>) el.getValue();
-            for(String i : prod) {
-                toDisplay += i;
-                toDisplay += "|";
+            List<String> key = (List<String>) el.getKey();
+            if(key.size() != 1) {
+                System.out.println("One key has more than one element");
+                return false;
             }
-            toDisplay.replaceAll("|$", "\n");
+            for(String str : key) {
+                if(!N.contains(str)) {
+                    System.out.println(str + " is not in N");
+                    return false;
+                }
+            }
+            List<List<String>> value = (List<List<String>>) el.getValue();
+            //System.out.println(value);
+            for(List l : value) {
+                //System.out.println(l);
+                for(Object str: l) {
+                    String s_str = (String) str;
+                    if(!N.contains(s_str) && !T.contains(s_str) && !s_str.equals("epsilon")) {
+                        System.out.println(s_str + " is bad");
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    private String PtoString() {
+        String toDisplay = "\nProductions: \nKeys:\n";
+        for(Map.Entry el : P.entrySet()) {
+            List<String> key = (List<String>) el.getKey();
+            toDisplay += key;
+            toDisplay += " --> ";
+            List<List<String>> value = (List<List<String>>) el.getValue();
+            for(List l : value) {
+                toDisplay += l;
+                toDisplay += " | ";
+            }
+            toDisplay += "\n";
         }
         return toDisplay;
     }
 
     @Override
     public String toString() {
-        return "Grammar{" +
+        return "Grammar{\n" +
                 "N=" + N +
-                ", T=" + T +
-                ", S='" + S + '\'' +
+                ",\n T=" + T +
+                ",\n S='" + S + '\'' +
                 this.PtoString() +
                 '}';
     }

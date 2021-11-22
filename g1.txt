@@ -1,7 +1,6 @@
 S A B C
 a b c d
 S
-S -> acS|abB|adC
-A -> cd
-B -> aB
-C -> dc
+S -> a c S | a b B | a d C
+A -> c d
+B -> a B

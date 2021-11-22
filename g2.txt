@@ -1,0 +1,22 @@
+program statements dec_statement type single_stm primitive_dec array_dec assignment_stm cond_stm loop_stm read_stm write_stm relational_expr relation expression arithmetic_opr logical_opr term constant structure_dec declaration_list
+array sino lire ecrire pour functionalite si numero character text ou cin cout pendant changer cas xou donne devient identifier + ++ - ( ) { } -- * / % = < > <ou= >ou= == != ! >> << et debut fin struct
+program
+program -> debut statements fin
+statements -> single_stm | single_stm statements
+single_stm -> dec_statement | assignment_stm | cond_stm | loop_stm
+dec_statement -> primitive_dec | array_dec
+primitive_dec -> type identifier constant
+type -> numero | character | text
+assignment_stm -> identifier = expression
+cond_stm -> si ( relational_expr ) { statements } | si ( relational_expr ) { statements } sino { statements }
+loop_stm -> pendant ( relational_expr ) { statements }
+read_stm -> lire ( identifier )
+write_stm -> ecrire ( expression )
+relational_expr -> expression relation expression | expression | relational_expr logical_opr relational_expr | ! relational_expr
+relation -> < | <ou= | >ou= | > | == | !=
+expression -> expression arithmetic_opr term | term
+arithmetic_opr -> + | - | * | / | %
+logical_opr -> et | ou
+term -> ( expression ) | identifier | constant
+constant -> numero | text | character
+declaration_list -> dec_statement | dec_statement declaration_list
