@@ -19,4 +19,4 @@ arithmetic_opr -> + | - | * | / | %
 logical_opr -> et | ou
 term -> ( expression ) | identifier | constant
 constant -> numero | text | character
-declaration_list -> dec_statement | dec_statement declaration_list
+declaration_list program -> dec_statement | dec_statement declaration_list

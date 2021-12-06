@@ -18,6 +18,12 @@ public class Grammar {
         return P;
     }
 
+    public List<String> getN() { return N; }
+
+    public List<String> getT() { return T; }
+
+    public String getS() { return S; }
+
     public List<String> readLineToList(String line){
         String array[] = line.split(" ");
         return Arrays.asList(array.clone());
@@ -85,9 +91,7 @@ public class Grammar {
                 }
             }
             List<List<String>> value = (List<List<String>>) el.getValue();
-            //System.out.println(value);
             for(List l : value) {
-                //System.out.println(l);
                 for(Object str: l) {
                     String s_str = (String) str;
                     if(!N.contains(s_str) && !T.contains(s_str) && !s_str.equals("epsilon")) {
@@ -98,6 +102,16 @@ public class Grammar {
             }
         }
         return true;
+    }
+
+    public Set<List<String>> getNonterminalProd(String nonterminal) {
+        for(List<String> lhs : P.keySet()) {
+            if( lhs.contains(nonterminal)) {
+
+                return new HashSet<>( P.get(lhs));
+            }
+        }
+        return new HashSet<>();
     }
 
     private String PtoString() {
