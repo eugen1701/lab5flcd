@@ -56,19 +56,22 @@ public class Grammar {
                 i++;
             }
             //System.out.println(key);
+            P.put(key, new ArrayList<>());
             i++;
-            ArrayList<List<String>> value = new ArrayList<>();
+            ArrayList<String> value = new ArrayList<>();
             while(i<line.size()) {
-                List<String> token = Arrays.asList(line.get(i).split("\\|").clone());
-                for(String str : token) {
-                    List<String> prod = Arrays.asList(str.split(" ").clone());
-                    value.add(prod);
+                if(line.get(i).equals("|")) {
+                    P.get(key).add(value);
+                    value = new ArrayList<>();
+                } else {
+                    value.add(line.get(i));
                 }
                 i++;
             }
+            P.get(key).add(value);
+
 //            System.out.println(key);
 //            System.out.println(value);
-            P.put(key, value);
         }
 
     }
@@ -107,7 +110,6 @@ public class Grammar {
     public Set<List<String>> getNonterminalProd(String nonterminal) {
         for(List<String> lhs : P.keySet()) {
             if( lhs.contains(nonterminal)) {
-
                 return new HashSet<>( P.get(lhs));
             }
         }

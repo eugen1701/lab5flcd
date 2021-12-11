@@ -1,17 +1,20 @@
 package sample;
 
-import java.awt.image.AreaAveragingScaleFilter;
+import javafx.util.Pair;
+
 import java.util.*;
 
 public class Parser {
     private Grammar grammar;
     private Map<String, Set<String>> firstSet;
     private Map<String, Set<String>> follow;
+    private Map<Pair, Pair> parseTable;
 
     public Parser(Grammar grammar) {
         this.grammar = grammar;
         firstSet = new HashMap<>();
         follow = new HashMap<>();
+        parseTable = new HashMap<>();
 
         doFirst();
         doFollow();
@@ -24,7 +27,7 @@ public class Parser {
         List<String> nonterminals = this.grammar.getN();
         for (String i : nonterminals) {
             firstSet.put(i, new HashSet<>());
-            Set<List<String>> nonterminalProd = (Set<List<String>>) grammar.getNonterminalProd(i);
+            Set<List<String>> nonterminalProd = grammar.getNonterminalProd(i);
             for (List<String> prod : nonterminalProd) {
                 if (grammar.getT().contains(prod.get(0)) || prod.get(0).equals("epsilon")) {
                     this.firstSet.get(i).add(prod.get(0));
@@ -158,6 +161,10 @@ public class Parser {
             follow = column;
         }
 
+
+    }
+
+    public void doTheParseTable() {
 
     }
 }
