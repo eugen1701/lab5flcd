@@ -29,6 +29,12 @@ public class Grammar {
         return Arrays.asList(array.clone());
     }
 
+    /**
+     * @param fileName The name of the file from where the grammar is read.
+     * It reads line by line until it gets to the production and after it takes the line and split by "->"
+     *                 the left part is the non-terminal and the right part are the transitions separated and
+     *                 split by "|"
+     * */
     public void readGrammar(String fileName) {
         File file = new File(fileName);
         Scanner scanner = null;
@@ -76,6 +82,10 @@ public class Grammar {
 
     }
 
+    /**
+     * It check if the grammar is Context Free by checking the number of the  non-terminals on the
+     * left part of the production and also check that in the left part are only non-terminals
+     * */
     public boolean checkCfg() {
         if (!N.contains(S)) {
             System.out.println("S is not in N");
