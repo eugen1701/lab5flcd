@@ -116,7 +116,8 @@ public class Parser {
     }
 
     /**
-     * It generates the follow set for the productions.
+     * It generates the follow set for the productions. This function is used in case there is "epsilon" in the grammar.
+     * In case the transitions end by epsilon, it will search for the next terminal which can be find.
      * */
     public void doFollow() {
         for (String nonT : grammar.getN()) {
@@ -178,6 +179,13 @@ public class Parser {
 
     }
 
+    /**
+     * It generates the Parse Table. The parse table is represented by a Map (dictionary) in which the value is a Pair
+     * representing the coordinates of the table(the first value is the first colon of the table with all the non-terminals
+     * and terminals and the second value represents the first line of the table representing the terminals) and the value of the
+     * Map is again a Pair(where the first element are the elements from the grammar and the second value is the number of the
+     * transition in the production). The second Pair is the value situated in the table at the coordinates of the first pair.
+     * */
     public void doTheParseTable() {
         List<String> rows = new ArrayList<>();
         rows.addAll(grammar.getN());
@@ -298,6 +306,9 @@ public class Parser {
         return builder.toString();
     }
 
+    /**
+     * It parse the sequence and return the list of numbers representing the number of the transitions
+     * */
     public List<Integer> parseSequence(List<String> seq) {
         Stack<String> alpha = new Stack<>();
         Stack<String> beta = new Stack<>();

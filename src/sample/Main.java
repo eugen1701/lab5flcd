@@ -11,7 +11,7 @@ public class Main {
 
     public static void main(String[] args) {
         Grammar gr = new Grammar();
-        gr.readGrammar("g2.txt");
+        gr.readGrammar("g3.txt");
         Parser parser = new Parser(gr);
         parser.doTheParseTable();
         //System.out.println(parser.parseTableToString());
